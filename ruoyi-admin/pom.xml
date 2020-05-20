@@ -78,7 +78,12 @@
             <groupId>com.ruoyi</groupId>
             <artifactId>ruoyi-generator</artifactId>
         </dependency>
-        
+        <!--钉钉模块-->
+        <dependency>
+            <groupId>com.ruoyi</groupId>
+            <artifactId>ruoyi-dingtalk</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>
