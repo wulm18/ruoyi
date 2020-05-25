@@ -1,4 +1,4 @@
-package com.ruoyi.dingtalk.controller;
+package com.ruoyi.web.controller.dingtalk;
 
 import com.dingtalk.api.request.OapiReportListRequest;
 import com.dingtalk.api.response.OapiReportListResponse;
@@ -9,11 +9,14 @@ import com.dingtalk.api.request.OapiUserGetRequest;
 import com.dingtalk.api.request.OapiUserGetuserinfoRequest;
 import com.dingtalk.api.response.OapiUserGetResponse;
 import com.dingtalk.api.response.OapiUserGetuserinfoResponse;
+import com.ruoyi.system.domain.SysUser;
+import com.ruoyi.system.service.ISysUserService;
 import com.taobao.api.ApiException;
 import com.ruoyi.dingtalk.util.AccessTokenUtil;
 import com.ruoyi.dingtalk.util.ServiceResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -27,6 +30,9 @@ import java.util.concurrent.TimeUnit;
 @RequestMapping("/dingtalk")
 public class IndexController {
     private static final Logger bizLogger = LoggerFactory.getLogger(IndexController.class);
+
+    @Autowired
+    private ISysUserService userService;
 
     /**
      * 欢迎页面,通过url访问，判断后端服务是否启动
@@ -64,31 +70,35 @@ public class IndexController {
         // 获得到userId之后应用应该处理应用自身的登录会话管理（session）,避免后续的业务交互（前端到应用服务端）每次都要重新获取用户身份，提升用户体验
         String userId = response.getUserid();
 
-        String userName = getUserName(accessToken, userId);
-        System.out.println(userName);
+        String userMobile = getUserMobile(accessToken, userId);
+        System.out.println(userMobile);
+        SysUser sysUser = userService.selectUserByPhoneNumber(userMobile);
+
         //返回结果
         Map<String, Object> resultMap = new HashMap<>();
         resultMap.put("userId", userId);
-        resultMap.put("userName", userName);
+        resultMap.put("userMobile", userMobile);
+        resultMap.put("loginName",sysUser.getLoginName());
+
         ServiceResult serviceResult = ServiceResult.success(resultMap);
         return serviceResult;
     }
 
     /**
-     * 获取用户姓名
+     * 获取用户手机号
      *
      * @param accessToken
      * @param userId
      * @return
      */
-    private String getUserName(String accessToken, String userId) {
+    private String getUserMobile(String accessToken, String userId) {
         try {
             DingTalkClient client = new DefaultDingTalkClient(URLConstant.URL_USER_GET);
             OapiUserGetRequest request = new OapiUserGetRequest();
             request.setUserid(userId);
             request.setHttpMethod("GET");
             OapiUserGetResponse response = client.execute(request, accessToken);
-            return response.getName();
+            return response.getMobile();
         } catch (ApiException e) {
             e.printStackTrace();
             return null;

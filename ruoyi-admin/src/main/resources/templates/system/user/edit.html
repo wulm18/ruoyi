@@ -44,7 +44,7 @@
                     <div class="form-group">
                         <label class="col-sm-4 control-label is-required">邮箱：</label>
                         <div class="col-sm-8">
-                            <input name="email" class="form-control email" type="text" maxlength="20" placeholder="请输入邮箱" th:field="*{email}" required>
+                            <input name="email" class="form-control email" type="text" maxlength="30" placeholder="请输入邮箱" th:field="*{email}" required>
                         </div>
                     </div>
                 </div>
@@ -93,13 +93,24 @@
                 </div>
             </div>
             <div class="row">
-            	<div class="col-sm-12">
+            	<div class="col-sm-6">
                     <div class="form-group">
-                        <label class="col-xs-2 control-label">角色：</label>
-                        <div class="col-xs-10">
+                        <label class="col-sm-4 control-label">角色：</label>
+                        <div class="col-sm-8">
                             <label th:each="role:${roles}" class="check-box">
 								<input name="role" type="checkbox" th:value="${role.roleId}" th:text="${role.roleName}" th:checked="${role.flag}" th:disabled="${role.status == '1'}">
 							</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label is-required" >政治生日：</label>
+                        <div class="col-sm-8">
+                            <div class="input-group date">
+                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                <input name="birthday" th:value="${#dates.format(user.birthday, 'yyyy-MM-dd')}" class="form-control" placeholder="yyyy-MM-dd" type="text">
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -125,6 +136,7 @@
     </div>
 	<th:block th:include="include :: footer" />
 	<th:block th:include="include :: select2-js" />
+    <th:block th:include="include :: datetimepicker-js" />
 	<script type="text/javascript">
         var prefix = ctx + "system/user";
         
@@ -193,6 +205,12 @@
 	        	$.operate.saveTab(prefix + "/edit", data);
 	        }
 	    }
+
+        $("input[name='birthday']").datetimepicker({
+            format: "yyyy-mm-dd",
+            minView: "month",
+            autoclose: true
+        });
 
         /*用户管理-修改-选择部门树*/
         function selectDeptTree() {

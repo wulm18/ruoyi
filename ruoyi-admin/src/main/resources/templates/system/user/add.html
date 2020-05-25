@@ -43,7 +43,7 @@
                     <div class="form-group">
                         <label class="col-sm-4 control-label is-required">邮箱：</label>
                         <div class="col-sm-8">
-                            <input id="email" name="email" class="form-control email" type="text" maxlength="20" placeholder="请输入邮箱" required>
+                            <input id="email" name="email" class="form-control email" type="text" maxlength="30" placeholder="请输入邮箱" required>
                         </div>
                     </div>
                 </div>
@@ -90,13 +90,24 @@
                 </div>
             </div>
             <div class="row">
-            	<div class="col-sm-12">
+            	<div class="col-sm-6">
                     <div class="form-group">
-                        <label class="col-xs-2 control-label">岗位：</label>
-                        <div class="col-xs-4">
+                        <label class="col-sm-4 control-label">岗位：</label>
+                        <div class="col-sm-8">
                             <select id="post" class="form-control select2-multiple" multiple>
 								<option th:each="post:${posts}" th:value="${post.postId}" th:text="${post.postName}" th:disabled="${post.status == '1'}"></option>
 							</select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label is-required">政治生日：</label>
+                        <div class="col-sm-8">
+                            <div class="input-group date">
+                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                <input name="birthday" class="form-control" placeholder="yyyy-MM-dd" type="text" required>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -135,6 +146,7 @@
     </div>
 	<th:block th:include="include :: footer" />
 	<th:block th:include="include :: select2-js" />
+    <th:block th:include="include :: datetimepicker-js" />
 	<script>
 	    var prefix = ctx + "system/user";
 	
@@ -221,7 +233,12 @@
 	        	$.operate.saveTab(prefix + "/add", data);
 	        }
 	    }
-         
+        $("input[name='birthday']").datetimepicker({
+            format: "yyyy-mm-dd",
+            minView: "month",
+            autoclose: true
+        });
+
         /*用户管理-新增-选择部门树*/
         function selectDeptTree() {
         	var treeId = $("#treeId").val();

@@ -57,6 +57,10 @@ public class SysUser extends BaseEntity
     @Excel(name = "用户性别", readConverterExp = "0=男,1=女,2=未知")
     private String sex;
 
+    /** 政治生日 */
+    @Excel(name = "政治生日", width = 30, dateFormat = "yyyy-MM-dd")
+    private Date birthday;
+
     /** 用户头像 */
     private String avatar;
 
@@ -222,6 +226,10 @@ public class SysUser extends BaseEntity
         this.sex = sex;
     }
 
+    public Date getBirthday() {return  birthday;}
+
+    public void setBirthday(Date birthday) {this.birthday = birthday;}
+
     public String getAvatar()
     {
         return avatar;
@@ -347,6 +355,7 @@ public class SysUser extends BaseEntity
             .append("email", getEmail())
             .append("phonenumber", getPhonenumber())
             .append("sex", getSex())
+            .append("birthday", getBirthday())
             .append("avatar", getAvatar())
             .append("password", getPassword())
             .append("salt", getSalt())
