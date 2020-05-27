@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.dingtalk.mapper.PartyDuesMapper">
+    
+    <resultMap type="PartyDues" id="PartyDuesResult">
+        <result property="partyDueId"    column="party_due_id"    />
+        <result property="dueFile"    column="due_file"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="createByName"    column="create_by_name"    />
+    </resultMap>
+
+    <sql id="selectPartyDuesVo">
+        select party_due_id, due_file, create_by, create_time, create_by_name from party_dues
+    </sql>
+
+    <select id="selectPartyDuesList" parameterType="PartyDues" resultMap="PartyDuesResult">
+        <include refid="selectPartyDuesVo"/>
+        <where>  
+            <if test="createBy != null  and createBy != ''"> and create_by = #{createBy}</if>
+            <if test="params.beginCreateTime != null and params.beginCreateTime != '' and params.endCreateTime != null and params.endCreateTime != ''"> and create_time between #{params.beginCreateTime} and #{params.endCreateTime}</if>
+            <if test="createByName != null  and createByName != ''"> and create_by_name like concat('%', #{createByName}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectPartyDuesById" parameterType="Long" resultMap="PartyDuesResult">
+        <include refid="selectPartyDuesVo"/>
+        where party_due_id = #{partyDueId}
+    </select>
+        
+    <insert id="insertPartyDues" parameterType="PartyDues" useGeneratedKeys="true" keyProperty="partyDueId">
+        insert into party_dues
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="dueFile != null  and dueFile != ''">due_file,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="createByName != null  and createByName != ''">create_by_name,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="dueFile != null  and dueFile != ''">#{dueFile},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="createByName != null  and createByName != ''">#{createByName},</if>
+         </trim>
+    </insert>
+
+    <update id="updatePartyDues" parameterType="PartyDues">
+        update party_dues
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="dueFile != null  and dueFile != ''">due_file = #{dueFile},</if>
+            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="createByName != null  and createByName != ''">create_by_name = #{createByName},</if>
+        </trim>
+        where party_due_id = #{partyDueId}
+    </update>
+
+    <delete id="deletePartyDuesById" parameterType="Long">
+        delete from party_dues where party_due_id = #{partyDueId}
+    </delete>
+
+    <delete id="deletePartyDuesByIds" parameterType="String">
+        delete from party_dues where party_due_id in 
+        <foreach item="partyDueId" collection="array" open="(" separator="," close=")">
+            #{partyDueId}
+        </foreach>
+    </delete>
+    
+</mapper>

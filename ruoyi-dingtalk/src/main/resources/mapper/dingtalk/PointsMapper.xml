@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.dingtalk.mapper.PointsMapper">
+    
+    <resultMap type="Points" id="PointsResult">
+        <result property="pointId"    column="point_id"    />
+        <result property="historyPoint"    column="history_point"    />
+        <result property="latestPoint"    column="latest_point"    />
+        <result property="finishPoint"    column="finish_point"    />
+        <result property="pointFile"    column="point_file"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="userName"    column="user_name"    />
+    </resultMap>
+
+    <sql id="selectPointsVo">
+        select point_id, history_point, latest_point, finish_point, point_file, create_by, create_time, user_name from points
+    </sql>
+
+    <select id="selectPointsList" parameterType="Points" resultMap="PointsResult">
+        <include refid="selectPointsVo"/>
+        <where>  
+            <if test="finishPoint != null "> and finish_point &gt;= #{finishPoint}</if>
+            <if test="createBy != null  and createBy != ''"> and create_by = #{createBy}</if>
+            <if test="params.beginCreateTime != null and params.beginCreateTime != '' and params.endCreateTime != null and params.endCreateTime != ''"> and create_time between #{params.beginCreateTime} and #{params.endCreateTime}</if>
+            <if test="userName != null  and userName != ''"> and user_name like concat('%', #{userName}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectPointsById" parameterType="Long" resultMap="PointsResult">
+        <include refid="selectPointsVo"/>
+        where point_id = #{pointId}
+    </select>
+        
+    <insert id="insertPoints" parameterType="Points" useGeneratedKeys="true" keyProperty="pointId">
+        insert into points
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="historyPoint != null ">history_point,</if>
+            <if test="latestPoint != null ">latest_point,</if>
+            <if test="finishPoint != null ">finish_point,</if>
+            <if test="pointFile != null  and pointFile != ''">point_file,</if>
+            <if test="createBy != null  and createBy != ''">create_by,</if>
+            <if test="createTime != null ">create_time,</if>
+            <if test="userName != null  and userName != ''">user_name,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="historyPoint != null ">#{historyPoint},</if>
+            <if test="latestPoint != null ">#{latestPoint},</if>
+            <if test="finishPoint != null ">#{finishPoint},</if>
+            <if test="pointFile != null  and pointFile != ''">#{pointFile},</if>
+            <if test="createBy != null  and createBy != ''">#{createBy},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="userName != null  and userName != ''">#{userName},</if>
+         </trim>
+    </insert>
+
+    <update id="updatePoints" parameterType="Points">
+        update points
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="historyPoint != null ">history_point = #{historyPoint},</if>
+            <if test="latestPoint != null ">latest_point = #{latestPoint},</if>
+            <if test="finishPoint != null ">finish_point = #{finishPoint},</if>
+            <if test="pointFile != null  and pointFile != ''">point_file = #{pointFile},</if>
+            <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
+            <if test="createTime != null ">create_time = #{createTime},</if>
+            <if test="userName != null  and userName != ''">user_name = #{userName},</if>
+        </trim>
+        where point_id = #{pointId}
+    </update>
+
+    <delete id="deletePointsById" parameterType="Long">
+        delete from points where point_id = #{pointId}
+    </delete>
+
+    <delete id="deletePointsByIds" parameterType="String">
+        delete from points where point_id in 
+        <foreach item="pointId" collection="array" open="(" separator="," close=")">
+            #{pointId}
+        </foreach>
+    </delete>
+    
+</mapper>

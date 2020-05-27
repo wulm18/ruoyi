@@ -1,5 +1,6 @@
 package com.ruoyi.dingtalk.util;
 
+import com.ruoyi.dingtalk.config.Constant;
 import com.dingtalk.api.DefaultDingTalkClient;
 import com.dingtalk.api.request.OapiGettokenRequest;
 import com.dingtalk.api.response.OapiGettokenResponse;

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('修改学习强国')" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-points-edit" th:object="${points}">
+            <input name="pointId" th:field="*{pointId}" type="hidden">
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">上次积分：</label>
+                <div class="col-sm-8">
+                    <input name="historyPoint" th:field="*{historyPoint}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">本次积分：</label>
+                <div class="col-sm-8">
+                    <input name="latestPoint" th:field="*{latestPoint}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">完成积分：</label>
+                <div class="col-sm-8">
+                    <input name="finishPoint" th:field="*{finishPoint}" class="form-control" type="text">
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">积分截图：</label>
+                <div class="col-sm-8">
+                    <input name="pointFile" th:field="*{pointFile}" class="form-control" type="text">
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script type="text/javascript">
+        var prefix = ctx + "dingtalk/points";
+        $("#form-points-edit").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/edit", $('#form-points-edit').serialize());
+            }
+        }
+    </script>
+</body>
+</html>

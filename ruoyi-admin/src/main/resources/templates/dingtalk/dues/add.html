@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('新增党费缴纳')" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-dues-add">
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">缴纳截图：</label>
+                <div class="col-sm-8">
+                    <input id="dueFile" name="dueFile" class="form-control" type="file">
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script type="text/javascript">
+        var prefix = ctx + "dingtalk/dues"
+        $("#form-dues-add").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                uploadFile();
+               // $.operate.save(prefix + "/add", $('#form-dues-add').serialize());
+            }
+        }
+
+        function uploadFile() {
+            var formData = new FormData();
+            if ($('#dueFile')[0].files[0] == null) {
+                $.modal.alertWarning("请先选择文件路径");
+                return false;
+            }
+            formData.append('fileName', $("#fileName").val());
+            formData.append('file', $('#dueFile')[0].files[0]);
+            $.ajax({
+                url: prefix + "/add",
+                type: 'post',
+                cache: false,
+                data: formData,
+                processData: false,
+                contentType: false,
+                dataType: "json",
+                success: function(result) {
+                    $.operate.successCallback(result);
+                }
+            });
+        }
+    </script>
+</body>
+</html>
