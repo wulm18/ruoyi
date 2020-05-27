@@ -1,7 +1,7 @@
 package com.ruoyi.dingtalk.util;
 
-import com.ruoyi.dingtalk.config.Constant;
 import com.dingtalk.api.DefaultDingTalkClient;
+import com.dingtalk.api.DingTalkClient;
 import com.dingtalk.api.request.OapiGettokenRequest;
 import com.dingtalk.api.response.OapiGettokenResponse;
 import com.ruoyi.dingtalk.config.Constant;
@@ -19,8 +19,12 @@ public class AccessTokenUtil {
 
     public static String getToken() throws RuntimeException {
         try {
-            DefaultDingTalkClient client = new DefaultDingTalkClient(URL_GET_TOKKEN);
+
+            DingTalkClient client = new DefaultDingTalkClient(URL_GET_TOKKEN);
             OapiGettokenRequest request = new OapiGettokenRequest();
+
+//            DefaultDingTalkClient client = new DefaultDingTalkClient(URL_GET_TOKKEN);
+//            OapiGettokenRequest request = new OapiGettokenRequest();
 
             request.setAppkey(Constant.APP_KEY);
             request.setAppsecret(Constant.APP_SECRET);

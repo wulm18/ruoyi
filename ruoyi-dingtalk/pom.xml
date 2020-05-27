@@ -15,40 +15,19 @@
     </description>
     <dependencies>
         <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpclient</artifactId>
-            <version>4.5.1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpcore</artifactId>
-            <version>4.4.4</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpmime</artifactId>
-            <version>4.3.5</version>
-        </dependency>
-        <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
-            <version>2.4</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.taobao.top</groupId>
-            <artifactId>top-api-sdk-dev</artifactId>
-            <version>ding-open-mc-SNAPSHOT</version>
-            <scope>system</scope>
-            <systemPath>${pom.basedir}/lib/top-api-sdk-dev-ding-open-mc-20180719.091043-1.jar</systemPath>
-        </dependency>
-
-        <dependency>
             <groupId>com.taobao.top</groupId>
             <artifactId>lippi-oapi-encrpt</artifactId>
             <version>dingtalk-SNAPSHOT</version>
             <scope>system</scope>
             <systemPath>${pom.basedir}/lib/lippi-oapi-encrpt.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>com.taobao.sdk</groupId>
+            <artifactId>taobao-sdk-java-auto</artifactId>
+            <version>dingtalk-SNAPSHOT</version>
+            <scope>system</scope>
+            <systemPath>${pom.basedir}/lib/taobao-sdk-java-auto_1479188381469-20200526.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>com.ruoyi</groupId>
