@@ -29,6 +29,10 @@ public class UnicomPoints extends BaseEntity
     @Excel(name = "创建者姓名")
     private String userName;
 
+    /** 标志位（0待办 1已办） */
+    @Excel(name = "标志位", readConverterExp = "0=待办,1=已办")
+    private String unicomFlag;
+
     public void setUnicomId(Long unicomId) 
     {
         this.unicomId = unicomId;
@@ -66,6 +70,10 @@ public class UnicomPoints extends BaseEntity
         return userName;
     }
 
+    public void setUnicomFlag(String unicomFlag) { this.unicomFlag = unicomFlag; }
+
+    public String getUnicomFlag() { return unicomFlag; }
+
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
@@ -75,6 +83,7 @@ public class UnicomPoints extends BaseEntity
             .append("createBy", getCreateBy())
             .append("createTime", getCreateTime())
             .append("userName", getUserName())
+            .append("unicomFlag", getUnicomFlag())
             .toString();
     }
 }

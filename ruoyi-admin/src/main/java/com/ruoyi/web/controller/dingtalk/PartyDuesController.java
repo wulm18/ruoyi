@@ -86,6 +86,7 @@ public class PartyDuesController extends BaseController
     @RequiresPermissions("dingtalk:dues:add")
     @Log(title = "党费缴纳", businessType = BusinessType.INSERT)
     @PostMapping("/add")
+   // @RequestMapping(value = "/add", method = RequestMethod.POST)
     @ResponseBody
     public AjaxResult addSave(@RequestParam("file") MultipartFile file, PartyDues partyDues) throws IOException
     {
@@ -97,6 +98,7 @@ public class PartyDuesController extends BaseController
 
         partyDues.setCreateBy(ShiroUtils.getLoginName());
         partyDues.setCreateByName(ShiroUtils.getSysUser().getUserName());
+        partyDues.setFlag("1");
         return toAjax(partyDuesService.insertPartyDues(partyDues));
     }
 
@@ -118,8 +120,13 @@ public class PartyDuesController extends BaseController
     @Log(title = "党费缴纳", businessType = BusinessType.UPDATE)
     @PostMapping("/edit")
     @ResponseBody
-    public AjaxResult editSave(PartyDues partyDues)
+    public AjaxResult editSave(@RequestParam("file") MultipartFile file,PartyDues partyDues)  throws IOException
     {
+        // 上传文件路径
+        String filePath = RuoYiConfig.getUploadPath();
+        // 上传并返回新文件名称
+        String fileName = FileUploadUtils.upload(filePath, file);
+        partyDues.setDueFile(fileName);
         return toAjax(partyDuesService.updatePartyDues(partyDues));
     }
 

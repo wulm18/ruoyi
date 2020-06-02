@@ -26,6 +26,10 @@ public class PartyDues extends BaseEntity
     @Excel(name = "创建者姓名")
     private String createByName;
 
+    /** 标志位（0待办 1已办） */
+    private String flag;
+
+
     public void setPartyDueId(Long partyDueId) 
     {
         this.partyDueId = partyDueId;
@@ -54,6 +58,11 @@ public class PartyDues extends BaseEntity
         return createByName;
     }
 
+    public void setFlag(String flag) { this.flag = flag; }
+
+    public String getFlag() { return flag; }
+
+
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
@@ -62,6 +71,7 @@ public class PartyDues extends BaseEntity
             .append("createBy", getCreateBy())
             .append("createTime", getCreateTime())
             .append("createByName", getCreateByName())
+            .append("flag", getFlag())
             .toString();
     }
 }

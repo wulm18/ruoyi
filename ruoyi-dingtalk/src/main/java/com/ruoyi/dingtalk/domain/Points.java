@@ -36,6 +36,10 @@ public class Points extends BaseEntity
     @Excel(name = "创建者姓名")
     private String userName;
 
+    /** 标志位（0待办 1已办） */
+    @Excel(name = "标志位", readConverterExp = "0=待办,1=已办")
+    private String pointFlag;
+
     public void setPointId(Long pointId) 
     {
         this.pointId = pointId;
@@ -91,6 +95,10 @@ public class Points extends BaseEntity
         return userName;
     }
 
+    public void setPointFlag(String pointFlag) { this.pointFlag = pointFlag; }
+
+    public String getPointFlag() { return pointFlag; }
+
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
@@ -102,6 +110,7 @@ public class Points extends BaseEntity
             .append("createBy", getCreateBy())
             .append("createTime", getCreateTime())
             .append("userName", getUserName())
+            .append("pointFlag", getPointFlag())
             .toString();
     }
 }

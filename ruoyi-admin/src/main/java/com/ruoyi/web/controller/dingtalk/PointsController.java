@@ -97,6 +97,7 @@ public class PointsController extends BaseController
 
         points.setCreateBy(ShiroUtils.getLoginName());
         points.setUserName(ShiroUtils.getSysUser().getUserName());
+        points.setPointFlag("1");
         return toAjax(pointsService.insertPoints(points));
     }
 

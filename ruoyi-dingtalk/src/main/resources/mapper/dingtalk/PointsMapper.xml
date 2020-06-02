@@ -13,10 +13,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="createBy"    column="create_by"    />
         <result property="createTime"    column="create_time"    />
         <result property="userName"    column="user_name"    />
+        <result property="pointFlag"    column="point_flag"    />
     </resultMap>
 
     <sql id="selectPointsVo">
-        select point_id, history_point, latest_point, finish_point, point_file, create_by, create_time, user_name from points
+        select point_id, history_point, latest_point, finish_point, point_file, create_by, create_time, user_name, point_flag  from points
     </sql>
 
     <select id="selectPointsList" parameterType="Points" resultMap="PointsResult">
@@ -44,6 +45,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="createBy != null  and createBy != ''">create_by,</if>
             <if test="createTime != null ">create_time,</if>
             <if test="userName != null  and userName != ''">user_name,</if>
+            <if test="pointFlag != null  and pointFlag != ''">point_flag,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="historyPoint != null ">#{historyPoint},</if>
@@ -53,6 +55,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="createBy != null  and createBy != ''">#{createBy},</if>
             <if test="createTime != null ">#{createTime},</if>
             <if test="userName != null  and userName != ''">#{userName},</if>
+            <if test="pointFlag != null  and pointFlag != ''">#{pointFlag},</if>
          </trim>
     </insert>
 

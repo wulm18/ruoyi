@@ -96,6 +96,7 @@ public class UnicomPointsController extends BaseController
         unicomPoints.setPointsFile(fileName);
         unicomPoints.setCreateBy(ShiroUtils.getLoginName());
         unicomPoints.setUserName(ShiroUtils.getSysUser().getUserName());
+        unicomPoints.setUnicomFlag("1");
         return toAjax(unicomPointsService.insertUnicomPoints(unicomPoints));
     }
 

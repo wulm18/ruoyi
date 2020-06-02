@@ -11,10 +11,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="createBy"    column="create_by"    />
         <result property="createTime"    column="create_time"    />
         <result property="userName"    column="user_name"    />
+        <result property="unicomFlag"    column="unicom_flag"    />
     </resultMap>
 
     <sql id="selectUnicomPointsVo">
-        select unicom_id, mouth_points, points_file, create_by, create_time, user_name from unicom_points
+        select unicom_id, mouth_points, points_file, create_by, create_time, user_name, point_flag, unicom_flag from unicom_points
     </sql>
 
     <select id="selectUnicomPointsList" parameterType="UnicomPoints" resultMap="UnicomPointsResult">
@@ -40,6 +41,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="createBy != null  and createBy != ''">create_by,</if>
             <if test="createTime != null ">create_time,</if>
             <if test="userName != null  and userName != ''">user_name,</if>
+            <if test="unicomFlag != null  and unicomFlag != ''">unicom_flag,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="mouthPoints != null ">#{mouthPoints},</if>
@@ -47,6 +49,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="createBy != null  and createBy != ''">#{createBy},</if>
             <if test="createTime != null ">#{createTime},</if>
             <if test="userName != null  and userName != ''">#{userName},</if>
+            <if test="unicomFlag != null  and unicomFlag != ''">#{unicomFlag},</if>
          </trim>
     </insert>
 

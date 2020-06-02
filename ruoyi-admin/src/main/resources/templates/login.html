@@ -26,23 +26,26 @@
             <div class="col-sm-7">
                 <div class="signin-info">
                     <div class="logopanel m-b">
-                        <h1><img alt="[ 淄博联通 ]" src="../static/ruoyi.png" th:src="@{/ruoyi.png}"></h1>
+                        <h2>
+                            <img alt="[ 党建助手 ]" src="../static/ruoyi.png" th:src="@{/ruoyi.png}">
+                            <strong>党建助手管理平台</strong>
+                        </h2>
                     </div>
                     <div class="m-b"></div>
-                    <h4>欢迎使用 <strong>党建助手后台管理系统</strong></h4>
+                    <h4>不忘初心 牢记使命</h4>
                     <ul class="m-b">
-                        <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i> SpringBoot</li>
-                        <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i> Mybatis</li>
-                        <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i> Shiro</li>
-                        <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i> Thymeleaf</li>
-                        <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i> Bootstrap</li>
+                        <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i> 通知公告</li>
+                        <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i> 任务清单</li>
+                        <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i> 应知应会</li>
+                        <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i> 问卷调查</li>
+                        <li><i class="fa fa-arrow-circle-o-right m-r-xs"></i> 在线考试</li>
                     </ul>
                     <strong th:if="${@config.getKey('sys.account.registerUser')}">还没有账号？ <a th:href="@{/register}">立即注册&raquo;</a></strong>
                 </div>
             </div>
             <div class="col-sm-5">
                 <form id="signupForm" autocomplete="off">
-                    <h4 class="no-margins">登录：</h4>
+                    <h3 class="no-margins">登录：</h3>
                     <p class="m-t-md">梦想从学习开始 事业从实践起步</p>
                     <input type="text"     name="username" class="form-control uname"     placeholder="用户名" value="admin"    />
                     <input type="password" name="password" class="form-control pword"     placeholder="密码"   value="zbunicom" />
