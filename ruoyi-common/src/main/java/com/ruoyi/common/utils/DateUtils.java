@@ -43,6 +43,8 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils
      * 
      * @return String
      */
+    public static String getMonth() { return  dateTimeNow(YYYY_MM); }
+
     public static String getDate()
     {
         return dateTimeNow(YYYY_MM_DD);

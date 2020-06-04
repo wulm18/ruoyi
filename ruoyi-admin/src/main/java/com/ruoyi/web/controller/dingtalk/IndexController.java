@@ -9,7 +9,11 @@ import com.dingtalk.api.response.OapiUserGetuserinfoResponse;
 import com.ruoyi.dingtalk.config.URLConstant;
 import com.ruoyi.dingtalk.util.AccessTokenUtil;
 import com.ruoyi.dingtalk.util.ServiceResult;
+import com.ruoyi.system.domain.SysDept;
+import com.ruoyi.system.domain.SysPost;
 import com.ruoyi.system.domain.SysUser;
+import com.ruoyi.system.service.ISysDeptService;
+import com.ruoyi.system.service.ISysPostService;
 import com.ruoyi.system.service.ISysUserService;
 import com.taobao.api.ApiException;
 import org.slf4j.Logger;
@@ -18,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -27,6 +32,7 @@ import java.util.Map;
 @RequestMapping("/dingtalk")
 public class IndexController {
     private static final Logger bizLogger = LoggerFactory.getLogger(IndexController.class);
+
     @Autowired
     private ISysUserService userService;
 
@@ -74,12 +80,15 @@ public class IndexController {
         //获取党建助手系统中用户信息
         SysUser sysUser = userService.selectUserByPhoneNumber(userMobile);
         System.out.println(userMobile);
+
+
         //返回结果
         Map<String, Object> resultMap = new HashMap<>();
         resultMap.put("userId", userId);
         resultMap.put("userName", userName);
         resultMap.put("userMobile", userMobile);
         resultMap.put("sysUser", sysUser);
+
         ServiceResult serviceResult = ServiceResult.success(resultMap);
         return serviceResult;
     }

@@ -90,6 +90,12 @@ public class PartyDuesController extends BaseController
     @ResponseBody
     public AjaxResult addSave(@RequestParam("file") MultipartFile file, PartyDues partyDues) throws IOException
     {
+        List<PartyDues> list = partyDuesService.selectPartyDuesListByCreateTime();
+        if(list.size() != 0) {
+            for (int i = 0; i < list.size(); i++) {
+                partyDuesService.deletePartyDuesById(list.get(i).getPartyDueId());
+            }
+        }
         // 上传文件路径
         String filePath = RuoYiConfig.getUploadPath();
         // 上传并返回新文件名称
@@ -99,7 +105,9 @@ public class PartyDuesController extends BaseController
         partyDues.setCreateBy(ShiroUtils.getLoginName());
         partyDues.setCreateByName(ShiroUtils.getSysUser().getUserName());
         partyDues.setFlag("1");
+        partyDues.setDeptId(ShiroUtils.getSysUser().getDeptId());
         return toAjax(partyDuesService.insertPartyDues(partyDues));
+
     }
 
     /**

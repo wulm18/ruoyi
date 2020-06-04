@@ -1,6 +1,8 @@
 package com.ruoyi.dingtalk.service.impl;
 
 import java.util.List;
+
+import com.ruoyi.common.annotation.DataScope;
 import com.ruoyi.common.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,16 +36,33 @@ public class PointsServiceImpl implements IPointsService
     }
 
     /**
+     * 查询最新学习强国
+     *
+     * @param createBy 学习强国ID
+     * @return 学习强国
+     */
+    @Override
+    public Points selectPointsByCreateBy(String  createBy) { return pointsMapper.selectPointsByCreateBy(createBy); }
+
+    /**
      * 查询学习强国列表
      * 
      * @param points 学习强国
      * @return 学习强国
      */
     @Override
+    @DataScope(deptAlias = "d")
     public List<Points> selectPointsList(Points points)
     {
         return pointsMapper.selectPointsList(points);
     }
+    
+    /**
+     * 查询当月学习强国列表
+     * @return 学习强国集合
+     */
+    @Override
+    public List<Points> selectPointsListByCreateTime() { return pointsMapper.selectPointsListByCreateTime(); }
 
     /**
      * 新增学习强国

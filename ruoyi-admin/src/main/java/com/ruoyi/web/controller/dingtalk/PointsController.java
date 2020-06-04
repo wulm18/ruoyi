@@ -45,6 +45,13 @@ public class PointsController extends BaseController
     }
 
     /**
+     * 上次学习强国积分
+     */
+    public Long getPoint(){
+       Points point = pointsService.selectPointsByCreateBy(ShiroUtils.getLoginName());
+       return point.getLatestPoint();
+    }
+    /**
      * 查询学习强国列表
      */
     @RequiresPermissions("dingtalk:points:list")
@@ -73,13 +80,22 @@ public class PointsController extends BaseController
 
     /**
      * 新增学习强国
-     */
+     *
     @GetMapping("/add")
-    public String add()
+    */
+    /*public String add()
     {
+
+        return prefix + "/add";
+    }*/
+    @GetMapping("/add")
+    public String add( ModelMap mmap)
+    {
+        Points points = pointsService.selectPointsByCreateBy(ShiroUtils.getLoginName());
+        System.out.println("累计积分："+points.getLatestPoint());
+        mmap.put("historyPoint", points.getLatestPoint());
         return prefix + "/add";
     }
-
     /**
      * 新增保存学习强国
      */
@@ -89,6 +105,12 @@ public class PointsController extends BaseController
     @ResponseBody
     public AjaxResult addSave(@RequestParam("file") MultipartFile file, Points points) throws IOException
     {
+        List<Points> list = pointsService.selectPointsList(points);
+        if (list.size() != 0){
+            for(int i = 0; i < list.size(); i++){
+                pointsService.deletePointsById(list.get(i).getPointId());
+            }
+        }
         // 上传文件路径
         String filePath = RuoYiConfig.getUploadPath();
         // 上传并返回新文件名称

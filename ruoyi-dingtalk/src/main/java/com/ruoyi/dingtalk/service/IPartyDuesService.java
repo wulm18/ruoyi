@@ -20,6 +20,13 @@ public interface IPartyDuesService
     public PartyDues selectPartyDuesById(Long partyDueId);
 
     /**
+     * 查询当月是否上传过
+     *
+     * @return 党费缴纳集合
+     */
+    public List<PartyDues> selectPartyDuesListByCreateTime() ;
+
+    /**
      * 查询党费缴纳列表
      * 
      * @param partyDues 党费缴纳

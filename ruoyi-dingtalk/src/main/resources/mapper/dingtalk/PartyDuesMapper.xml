@@ -11,21 +11,32 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="createTime"    column="create_time"    />
         <result property="createByName"    column="create_by_name"    />
         <result property="flag"    column="flag"    />
+        <result property="deptId" column="dept_id" />
     </resultMap>
 
     <sql id="selectPartyDuesVo">
-        select party_due_id, due_file, create_by, create_time, create_by_name , flag from party_dues
+        select party_due_id, due_file, create_by, create_time, create_by_name , flag, dept_id from party_dues
     </sql>
 
     <select id="selectPartyDuesList" parameterType="PartyDues" resultMap="PartyDuesResult">
-        <include refid="selectPartyDuesVo"/>
+        select p.party_due_id, p.due_file, p.create_by, p.create_time, p.create_by_name , p.flag, p.dept_id
+        from party_dues p left join sys_dept d on p.dept_id = d.dept_id
         <where>  
             <if test="createBy != null  and createBy != ''"> and create_by = #{createBy}</if>
             <if test="params.beginCreateTime != null and params.beginCreateTime != '' and params.endCreateTime != null and params.endCreateTime != ''"> and create_time between #{params.beginCreateTime} and #{params.endCreateTime}</if>
             <if test="createByName != null  and createByName != ''"> and create_by_name like concat('%', #{createByName}, '%')</if>
+            <!-- 数据范围过滤 -->
+            ${params.dataScope}
         </where>
     </select>
-    
+
+    <select id="selectPartyDuesListByCreateTime" parameterType="PartyDues" resultMap="PartyDuesResult">
+        <include refid="selectPartyDuesVo"/>
+        <where>
+            date_format(create_time,'%Y-%m')=date_format(now(),'%Y-%m')
+        </where>
+    </select>
+
     <select id="selectPartyDuesById" parameterType="Long" resultMap="PartyDuesResult">
         <include refid="selectPartyDuesVo"/>
         where party_due_id = #{partyDueId}
@@ -39,6 +50,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="createTime != null ">create_time,</if>
             <if test="createByName != null  and createByName != ''">create_by_name,</if>
             <if test="flag != null  and flag != ''">flag,</if>
+            <if test="deptId != null  and deptId != ''">dept_id,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="dueFile != null  and dueFile != ''">#{dueFile},</if>
@@ -46,6 +58,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="createTime != null ">#{createTime},</if>
             <if test="createByName != null  and createByName != ''">#{createByName},</if>
             <if test="flag != null  and flag != ''">#{flag},</if>
+            <if test="deptId != null  and deptId != ''">#{deptId}</if>
          </trim>
     </insert>
 
@@ -57,6 +70,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="createTime != null ">create_time = #{createTime},</if>
             <if test="createByName != null  and createByName != ''">create_by_name = #{createByName},</if>
             <if test="flag != null  and flag != ''">flag = #{flag},</if>
+            <if test="deptId != null  and deptId != ''">dept_id = #{departId}</if>
         </trim>
         where party_due_id = #{partyDueId}
     </update>

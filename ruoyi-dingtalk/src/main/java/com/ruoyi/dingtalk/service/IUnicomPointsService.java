@@ -28,6 +28,13 @@ public interface IUnicomPointsService
     public List<UnicomPoints> selectUnicomPointsList(UnicomPoints unicomPoints);
 
     /**
+     * 查询联通先锋列表
+     *
+     * @return 联通先锋集合
+     */
+    public List<UnicomPoints> selectUnicomPointsListByCreateTime();
+
+    /**
      * 新增联通先锋
      * 
      * @param unicomPoints 联通先锋

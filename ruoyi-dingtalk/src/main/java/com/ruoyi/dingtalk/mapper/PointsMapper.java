@@ -20,12 +20,27 @@ public interface PointsMapper
     public Points selectPointsById(Long pointId);
 
     /**
+     * 查询最新学习强国
+     *
+     * @param CreateBy 学习强国ID
+     * @return 学习强国
+     */
+    public Points selectPointsByCreateBy( String CreateBy);
+
+    /**
      * 查询学习强国列表
      * 
      * @param points 学习强国
      * @return 学习强国集合
      */
     public List<Points> selectPointsList(Points points);
+
+    /**
+     * 查询当月学习强国列表
+     *
+     * @return 学习强国集合
+     */
+    public List<Points> selectPointsListByCreateTime();
 
     /**
      * 新增学习强国

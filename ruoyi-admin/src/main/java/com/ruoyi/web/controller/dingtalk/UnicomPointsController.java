@@ -89,6 +89,12 @@ public class UnicomPointsController extends BaseController
     @ResponseBody
     public AjaxResult addSave(@RequestParam("file") MultipartFile file, UnicomPoints unicomPoints) throws IOException
     {
+        List<UnicomPoints> list = unicomPointsService.selectUnicomPointsList(unicomPoints);
+        if (list.size() != 0){
+            for(int i = 0; i < list.size(); i++){
+                unicomPointsService.deleteUnicomPointsById(list.get(i).getUnicomId());
+            }
+        }
         // 上传文件路径
         String filePath = RuoYiConfig.getUploadPath();
         // 上传并返回新文件名称

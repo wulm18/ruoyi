@@ -14,25 +14,38 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="createTime"    column="create_time"    />
         <result property="userName"    column="user_name"    />
         <result property="pointFlag"    column="point_flag"    />
+        <result property="deptId" column="dept_id" />
     </resultMap>
 
     <sql id="selectPointsVo">
-        select point_id, history_point, latest_point, finish_point, point_file, create_by, create_time, user_name, point_flag  from points
+        select point_id, history_point, latest_point, finish_point, point_file, create_by, create_time, user_name, point_flag , dept_id from points
     </sql>
 
     <select id="selectPointsList" parameterType="Points" resultMap="PointsResult">
-        <include refid="selectPointsVo"/>
+        select point_id, history_point, latest_point, finish_point, point_file, create_by, create_time, user_name, point_flag , dept_id
+        from points p left join sys_dept d on p.dept_id = d.dept_id
         <where>  
             <if test="finishPoint != null "> and finish_point &gt;= #{finishPoint}</if>
             <if test="createBy != null  and createBy != ''"> and create_by = #{createBy}</if>
             <if test="params.beginCreateTime != null and params.beginCreateTime != '' and params.endCreateTime != null and params.endCreateTime != ''"> and create_time between #{params.beginCreateTime} and #{params.endCreateTime}</if>
             <if test="userName != null  and userName != ''"> and user_name like concat('%', #{userName}, '%')</if>
+            <!-- 数据范围过滤 -->
+            ${params.dataScope}
         </where>
     </select>
-    
+
+    <select id="selectPointsListByCreateTime" parameterType="Points" resultMap="PointsResult">
+        <include refid="selectPointsVo"/>
+        <where> date_format(create_time,'%Y-%m')=date_format(now(),'%Y-%m')</where>
+    </select>
+
     <select id="selectPointsById" parameterType="Long" resultMap="PointsResult">
         <include refid="selectPointsVo"/>
         where point_id = #{pointId}
+    </select>
+    <select id="selectPointsByCreateBy" parameterType="String" resultMap="PointsResult">
+        <include refid="selectPointsVo"/>
+        where create_by = #{createBy} and point_id  in  (select max(point_id) from points)
     </select>
         
     <insert id="insertPoints" parameterType="Points" useGeneratedKeys="true" keyProperty="pointId">
@@ -46,6 +59,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="createTime != null ">create_time,</if>
             <if test="userName != null  and userName != ''">user_name,</if>
             <if test="pointFlag != null  and pointFlag != ''">point_flag,</if>
+            <if test="deptId != null  and deptId != ''">dept_id,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="historyPoint != null ">#{historyPoint},</if>
@@ -56,6 +70,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="createTime != null ">#{createTime},</if>
             <if test="userName != null  and userName != ''">#{userName},</if>
             <if test="pointFlag != null  and pointFlag != ''">#{pointFlag},</if>
+            <if test="deptId != null  and deptId != ''">#{deptId}</if>
          </trim>
     </insert>
 
@@ -69,6 +84,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
             <if test="createTime != null ">create_time = #{createTime},</if>
             <if test="userName != null  and userName != ''">user_name = #{userName},</if>
+            <if test="deptId != null  and deptId != ''">dept_id = #{departId}</if>
         </trim>
         where point_id = #{pointId}
     </update>

@@ -1,6 +1,8 @@
 package com.ruoyi.dingtalk.service.impl;
 
 import java.util.List;
+
+import com.ruoyi.common.annotation.DataScope;
 import com.ruoyi.common.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,6 +30,7 @@ public class PartyDuesServiceImpl implements IPartyDuesService
      * @return 党费缴纳
      */
     @Override
+    @DataScope(deptAlias = "d", userAlias = "u")
     public PartyDues selectPartyDuesById(Long partyDueId)
     {
         return partyDuesMapper.selectPartyDuesById(partyDueId);
@@ -40,9 +43,19 @@ public class PartyDuesServiceImpl implements IPartyDuesService
      * @return 党费缴纳
      */
     @Override
+    @DataScope(deptAlias = "d")
     public List<PartyDues> selectPartyDuesList(PartyDues partyDues)
     {
         return partyDuesMapper.selectPartyDuesList(partyDues);
+    }
+
+    /**
+     * 查询当月是否上传过
+     *
+     * @return 党费缴纳集合
+     */
+    public List<PartyDues> selectPartyDuesListByCreateTime() {
+        return partyDuesMapper.selectPartyDuesListByCreateTime();
     }
 
     /**

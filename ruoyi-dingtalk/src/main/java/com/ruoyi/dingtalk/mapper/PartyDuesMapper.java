@@ -28,6 +28,11 @@ public interface PartyDuesMapper
     public List<PartyDues> selectPartyDuesList(PartyDues partyDues);
 
     /**
+     * 查询当月是否上传过
+     * @return  党费缴纳集合
+     */
+    public List<PartyDues> selectPartyDuesListByCreateTime();
+    /**
      * 新增党费缴纳
      * 
      * @param partyDues 党费缴纳

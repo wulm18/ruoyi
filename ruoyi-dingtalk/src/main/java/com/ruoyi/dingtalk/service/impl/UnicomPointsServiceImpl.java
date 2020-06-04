@@ -1,6 +1,8 @@
 package com.ruoyi.dingtalk.service.impl;
 
 import java.util.List;
+
+import com.ruoyi.common.annotation.DataScope;
 import com.ruoyi.common.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -40,9 +42,19 @@ public class UnicomPointsServiceImpl implements IUnicomPointsService
      * @return 联通先锋
      */
     @Override
+    @DataScope(deptAlias = "d")
     public List<UnicomPoints> selectUnicomPointsList(UnicomPoints unicomPoints)
     {
         return unicomPointsMapper.selectUnicomPointsList(unicomPoints);
+    }
+    /**
+     * 查询联通先锋列表
+     *
+     * @return 联通先锋集合
+     */
+    @Override
+    public List<UnicomPoints> selectUnicomPointsListByCreateTime() {
+        return unicomPointsMapper.selectUnicomPointsListByCreateTime();
     }
 
     /**
