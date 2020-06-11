@@ -24,7 +24,7 @@ public interface IPartyDuesService
      *
      * @return 党费缴纳集合
      */
-    public List<PartyDues> selectPartyDuesListByCreateTime() ;
+    public List<PartyDues> selectPartyDuesListByCreateTime(String loginName) ;
 
     /**
      * 查询党费缴纳列表

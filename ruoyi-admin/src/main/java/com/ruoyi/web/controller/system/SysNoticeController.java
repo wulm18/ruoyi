@@ -54,6 +54,24 @@ public class SysNoticeController extends BaseController
     }
 
     /**
+     * 查询公告列表
+
+    @GetMapping()
+    public String display()
+    {
+        return prefix + "/display";
+    }
+    @RequiresPermissions("system:notice:listAll")
+    @PostMapping("/listAll")
+    @ResponseBody
+    public TableDataInfo listAll()
+    {
+        startPage();
+        List<SysNotice> list = noticeService.selecAlltNoticeList();
+        return getDataTable(list);
+    }*/
+
+    /**
      * 新增公告
      */
     @GetMapping("/add")
@@ -72,6 +90,7 @@ public class SysNoticeController extends BaseController
     public AjaxResult addSave(SysNotice notice)
     {
         notice.setCreateBy(ShiroUtils.getLoginName());
+        notice.setDeptId(ShiroUtils.getSysUser().getDeptId());
         return toAjax(noticeService.insertNotice(notice));
     }
 

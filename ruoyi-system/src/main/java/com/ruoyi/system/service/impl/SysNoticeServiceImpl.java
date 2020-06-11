@@ -41,10 +41,19 @@ public class SysNoticeServiceImpl implements ISysNoticeService
      * @return 公告集合
      */
     @Override
+    @DataScope(deptAlias = "d")
     public List<SysNotice> selectNoticeList(SysNotice notice)
     {
         return noticeMapper.selectNoticeList(notice);
     }
+
+    /**
+     * 查询公告列表
+     *
+     * @return 公告集合
+     */
+    @Override
+    public List<SysNotice> selecAlltNoticeList() { return noticeMapper.selecAlltNoticeList(); }
 
     /**
      * 新增公告

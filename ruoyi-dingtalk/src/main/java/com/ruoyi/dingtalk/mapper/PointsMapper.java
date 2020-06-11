@@ -40,7 +40,7 @@ public interface PointsMapper
      *
      * @return 学习强国集合
      */
-    public List<Points> selectPointsListByCreateTime();
+    public List<Points> selectPointsListByCreateTime(String loginName);
 
     /**
      * 新增学习强国

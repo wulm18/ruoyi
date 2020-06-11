@@ -62,7 +62,7 @@ public class PointsServiceImpl implements IPointsService
      * @return 学习强国集合
      */
     @Override
-    public List<Points> selectPointsListByCreateTime() { return pointsMapper.selectPointsListByCreateTime(); }
+    public List<Points> selectPointsListByCreateTime(String loginName) { return pointsMapper.selectPointsListByCreateTime(loginName); }
 
     /**
      * 新增学习强国

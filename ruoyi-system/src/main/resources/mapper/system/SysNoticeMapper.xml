@@ -15,10 +15,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="updateBy"       column="update_by"       />
         <result property="updateTime"     column="update_time"     />
         <result property="remark"         column="remark"          />
+        <result property="deptId"         column="dept_id" />
     </resultMap>
     
     <sql id="selectNoticeVo">
-        select notice_id, notice_title, notice_type, notice_content, status, create_by, create_time, update_by, update_time, remark 
+        select notice_id, notice_title, notice_type, notice_content, status, create_by, create_time, update_by, update_time, remark ,dept_id
 		from sys_notice
     </sql>
     
@@ -27,19 +28,26 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where notice_id = #{noticeId}
     </select>
     
+    <select id="selecAlltNoticeList" resultMap="SysNoticeResult">
+        select * from sys_notice where find_in_set(dept_id ,(select ancestors from sys_dept where dept_id = 100)) or dept_id = 100
+    </select>
+
     <select id="selectNoticeList" parameterType="SysNotice" resultMap="SysNoticeResult">
-        <include refid="selectNoticeVo"/>
+        select s.notice_id, s.notice_title, s.notice_type, s.notice_content, s.status, s.create_by, s.create_time, s.update_by, s.update_time, s.remark ,s.dept_id
+        from sys_notice s left join sys_dept d on s.dept_id = d.dept_id
         <where>
-			<if test="noticeTitle != null and noticeTitle != ''">
-				AND notice_title like concat('%', #{noticeTitle}, '%')
-			</if>
-			<if test="noticeType != null and noticeType != ''">
-				AND notice_type = #{noticeType}
-			</if>
-			<if test="createBy != null and createBy != ''">
-				AND create_by like concat('%', #{createBy}, '%')
-			</if>
-		</where>
+            <if test="noticeTitle != null and noticeTitle != ''">
+                AND notice_title like concat('%', #{noticeTitle}, '%')
+            </if>
+            <if test="noticeType != null and noticeType != ''">
+                AND notice_type = #{noticeType}
+            </if>
+            <if test="createBy != null and createBy != ''">
+                AND create_by like concat('%', #{createBy}, '%')
+            </if>
+            <!-- 数据范围过滤 -->
+            ${params.dataScope}
+        </where>
     </select>
     
     <insert id="insertNotice" parameterType="SysNotice">
@@ -50,6 +58,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="status != null and status != '' ">status, </if>
 			<if test="remark != null and remark != ''">remark,</if>
  			<if test="createBy != null and createBy != ''">create_by,</if>
+            <if test="deptId != null  and deptId != ''">dept_id,</if>
  			create_time
  		)values(
 			<if test="noticeTitle != null and noticeTitle != ''">#{noticeTitle}, </if>
@@ -58,6 +67,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="status != null and status != ''">#{status}, </if>
 			<if test="remark != null and remark != ''">#{remark},</if>
  			<if test="createBy != null and createBy != ''">#{createBy},</if>
+            <if test="deptId != null  and deptId != ''">#{deptId}</if>
  			sysdate()
 		)
     </insert>
@@ -70,6 +80,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="noticeContent != null">notice_content = #{noticeContent}, </if>
             <if test="status != null and status != ''">status = #{status}, </if>
             <if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
+            <if test="deptId != null  and deptId != ''">dept_id = #{deptId}</if>
  			update_time = sysdate()
         </set>
         where notice_id = #{noticeId}

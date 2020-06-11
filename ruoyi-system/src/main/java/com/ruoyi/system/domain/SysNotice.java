@@ -29,6 +29,9 @@ public class SysNotice extends BaseEntity
     /** 公告状态（0正常 1关闭） */
     private String status;
 
+    /** 部门ID */
+    private Long deptId;
+
     public Long getNoticeId()
     {
         return noticeId;
@@ -81,6 +84,16 @@ public class SysNotice extends BaseEntity
         return status;
     }
 
+    public Long getDeptId()
+    {
+        return deptId;
+    }
+
+    public void setDeptId(Long deptId)
+    {
+        this.deptId = deptId;
+    }
+
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
@@ -94,6 +107,7 @@ public class SysNotice extends BaseEntity
             .append("updateBy", getUpdateBy())
             .append("updateTime", getUpdateTime())
             .append("remark", getRemark())
+            .append("deptId", getDeptId())
             .toString();
     }
 }

@@ -30,8 +30,9 @@ public interface PartyDuesMapper
     /**
      * 查询当月是否上传过
      * @return  党费缴纳集合
+     * @param loginName
      */
-    public List<PartyDues> selectPartyDuesListByCreateTime();
+    public List<PartyDues> selectPartyDuesListByCreateTime(String loginName);
     /**
      * 新增党费缴纳
      * 

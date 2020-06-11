@@ -32,7 +32,7 @@ public interface UnicomPointsMapper
      *
      * @return 联通先锋集合
      */
-    public List<UnicomPoints> selectUnicomPointsListByCreateTime();
+    public List<UnicomPoints> selectUnicomPointsListByCreateTime(String loginName);
 
     /**
      * 新增联通先锋

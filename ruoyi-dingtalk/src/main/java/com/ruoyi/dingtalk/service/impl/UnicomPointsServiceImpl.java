@@ -53,8 +53,8 @@ public class UnicomPointsServiceImpl implements IUnicomPointsService
      * @return 联通先锋集合
      */
     @Override
-    public List<UnicomPoints> selectUnicomPointsListByCreateTime() {
-        return unicomPointsMapper.selectUnicomPointsListByCreateTime();
+    public List<UnicomPoints> selectUnicomPointsListByCreateTime(String loginName) {
+        return unicomPointsMapper.selectUnicomPointsListByCreateTime(loginName);
     }
 
     /**

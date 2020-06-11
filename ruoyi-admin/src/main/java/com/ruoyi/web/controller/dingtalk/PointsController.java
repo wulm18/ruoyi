@@ -89,11 +89,8 @@ public class PointsController extends BaseController
         return prefix + "/add";
     }*/
     @GetMapping("/add")
-    public String add( ModelMap mmap)
+    public String add()
     {
-        Points points = pointsService.selectPointsByCreateBy(ShiroUtils.getLoginName());
-        System.out.println("累计积分："+points.getLatestPoint());
-        mmap.put("historyPoint", points.getLatestPoint());
         return prefix + "/add";
     }
     /**
@@ -105,7 +102,8 @@ public class PointsController extends BaseController
     @ResponseBody
     public AjaxResult addSave(@RequestParam("file") MultipartFile file, Points points) throws IOException
     {
-        List<Points> list = pointsService.selectPointsList(points);
+
+        List<Points> list = pointsService.selectPointsListByCreateTime(ShiroUtils.getSysUser().getLoginName());
         if (list.size() != 0){
             for(int i = 0; i < list.size(); i++){
                 pointsService.deletePointsById(list.get(i).getPointId());
@@ -117,9 +115,21 @@ public class PointsController extends BaseController
         String fileName = FileUploadUtils.upload(filePath, file);
         points.setPointFile(fileName);
 
+        //获取上次积分
+        Points point = pointsService.selectPointsByCreateBy(ShiroUtils.getSysUser().getLoginName());
+ //       System.out.println("累计积分："+point.getLatestPoint());
+        if (point == null || "" .equals(point)){
+            points.setHistoryPoint((long) 0);
+        }else {
+            points.setHistoryPoint(point.getLatestPoint());
+        }
+
         points.setCreateBy(ShiroUtils.getLoginName());
         points.setUserName(ShiroUtils.getSysUser().getUserName());
         points.setPointFlag("1");
+        points.setDeptId(ShiroUtils.getSysUser().getDeptId());
+        //存入完成积分
+        points.setFinishPoint(points.getLatestPoint()-points.getHistoryPoint());
         return toAjax(pointsService.insertPoints(points));
     }
 

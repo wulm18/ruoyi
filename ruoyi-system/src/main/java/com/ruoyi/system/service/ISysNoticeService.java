@@ -27,6 +27,13 @@ public interface ISysNoticeService
     public List<SysNotice> selectNoticeList(SysNotice notice);
 
     /**
+     * 查询公告列表
+     *
+     * @return 公告集合
+     */
+    public List<SysNotice> selecAlltNoticeList();
+
+    /**
      * 新增公告
      * 
      * @param notice 公告信息

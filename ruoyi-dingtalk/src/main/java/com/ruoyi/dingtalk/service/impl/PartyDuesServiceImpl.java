@@ -54,8 +54,8 @@ public class PartyDuesServiceImpl implements IPartyDuesService
      *
      * @return 党费缴纳集合
      */
-    public List<PartyDues> selectPartyDuesListByCreateTime() {
-        return partyDuesMapper.selectPartyDuesListByCreateTime();
+    public List<PartyDues> selectPartyDuesListByCreateTime(String loginName) {
+        return partyDuesMapper.selectPartyDuesListByCreateTime(loginName);
     }
 
     /**

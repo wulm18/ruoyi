@@ -22,7 +22,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </sql>
 
     <select id="selectPointsList" parameterType="Points" resultMap="PointsResult">
-        select point_id, history_point, latest_point, finish_point, point_file, create_by, create_time, user_name, point_flag , dept_id
+        select p.point_id, p.history_point, p.latest_point, p.finish_point, p.point_file, p.create_by, p.create_time, p.user_name, p.point_flag , p.dept_id
         from points p left join sys_dept d on p.dept_id = d.dept_id
         <where>  
             <if test="finishPoint != null "> and finish_point &gt;= #{finishPoint}</if>
@@ -36,7 +36,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <select id="selectPointsListByCreateTime" parameterType="Points" resultMap="PointsResult">
         <include refid="selectPointsVo"/>
-        <where> date_format(create_time,'%Y-%m')=date_format(now(),'%Y-%m')</where>
+        <where>
+            date_format(create_time,'%Y-%m')=date_format(now(),'%Y-%m') and create_by= #{loginName}
+         </where>
     </select>
 
     <select id="selectPointsById" parameterType="Long" resultMap="PointsResult">
@@ -84,7 +86,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="createBy != null  and createBy != ''">create_by = #{createBy},</if>
             <if test="createTime != null ">create_time = #{createTime},</if>
             <if test="userName != null  and userName != ''">user_name = #{userName},</if>
-            <if test="deptId != null  and deptId != ''">dept_id = #{departId}</if>
+            <if test="deptId != null  and deptId != ''">dept_id = #{deptId}</if>
         </trim>
         where point_id = #{pointId}
     </update>

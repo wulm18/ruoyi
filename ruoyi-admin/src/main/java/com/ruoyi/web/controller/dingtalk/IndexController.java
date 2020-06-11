@@ -9,11 +9,8 @@ import com.dingtalk.api.response.OapiUserGetuserinfoResponse;
 import com.ruoyi.dingtalk.config.URLConstant;
 import com.ruoyi.dingtalk.util.AccessTokenUtil;
 import com.ruoyi.dingtalk.util.ServiceResult;
-import com.ruoyi.system.domain.SysDept;
-import com.ruoyi.system.domain.SysPost;
+import com.ruoyi.framework.util.ShiroUtils;
 import com.ruoyi.system.domain.SysUser;
-import com.ruoyi.system.service.ISysDeptService;
-import com.ruoyi.system.service.ISysPostService;
 import com.ruoyi.system.service.ISysUserService;
 import com.taobao.api.ApiException;
 import org.slf4j.Logger;
@@ -22,7 +19,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -39,11 +35,16 @@ public class IndexController {
     /**
      * 欢迎页面,通过url访问，判断后端服务是否启动
      */
-    @RequestMapping(value = "/welcome", method = RequestMethod.GET)
+    @RequestMapping(value = "/welcome", method = RequestMethod.POST)
     public String welcome() {
-        return "welcome";
+        return "dingtalk/partyLog";
     }
 
+    @PostMapping("/dingtalk/partyLog")
+    @ResponseBody
+    public String partyLog(){
+        return "";
+    }
     /**
      * 钉钉用户登录，显示当前登录用户的userId和名称
      *
@@ -82,6 +83,7 @@ public class IndexController {
         System.out.println(userMobile);
 
 
+        ShiroUtils.setSysUser(sysUser);
         //返回结果
         Map<String, Object> resultMap = new HashMap<>();
         resultMap.put("userId", userId);

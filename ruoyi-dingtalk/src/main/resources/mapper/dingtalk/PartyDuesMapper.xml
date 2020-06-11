@@ -11,7 +11,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="createTime"    column="create_time"    />
         <result property="createByName"    column="create_by_name"    />
         <result property="flag"    column="flag"    />
-        <result property="deptId" column="dept_id" />
+        <result property="deptId"   column="dept_id" />
     </resultMap>
 
     <sql id="selectPartyDuesVo">
@@ -33,7 +33,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectPartyDuesListByCreateTime" parameterType="PartyDues" resultMap="PartyDuesResult">
         <include refid="selectPartyDuesVo"/>
         <where>
-            date_format(create_time,'%Y-%m')=date_format(now(),'%Y-%m')
+            date_format(create_time,'%Y-%m')=date_format(now(),'%Y-%m') and create_by= #{loginName}
         </where>
     </select>
 
@@ -70,7 +70,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="createTime != null ">create_time = #{createTime},</if>
             <if test="createByName != null  and createByName != ''">create_by_name = #{createByName},</if>
             <if test="flag != null  and flag != ''">flag = #{flag},</if>
-            <if test="deptId != null  and deptId != ''">dept_id = #{departId}</if>
+            <if test="deptId != null  and deptId != ''">dept_id = #{deptId}</if>
         </trim>
         where party_due_id = #{partyDueId}
     </update>

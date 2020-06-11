@@ -39,7 +39,7 @@ public interface IPointsService
      * 查询当月学习强国列表
      * @return 学习强国集合
      */
-    public List<Points> selectPointsListByCreateTime();
+    public List<Points> selectPointsListByCreateTime(String loginName);
 
     /**
      * 新增学习强国

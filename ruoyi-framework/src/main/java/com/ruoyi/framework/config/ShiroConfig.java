@@ -253,6 +253,8 @@ public class ShiroConfig
 
         //使用钉钉认证
         filterChainDefinitionMap.put("/dingtalk/**", "anon");
+        filterChainDefinitionMap.put("/system/notice/**", "anon");
+
 
         // 退出 logout地址，shiro去清除session
         filterChainDefinitionMap.put("/logout", "logout");

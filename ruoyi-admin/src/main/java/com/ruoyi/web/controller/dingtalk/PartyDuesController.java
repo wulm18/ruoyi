@@ -90,7 +90,8 @@ public class PartyDuesController extends BaseController
     @ResponseBody
     public AjaxResult addSave(@RequestParam("file") MultipartFile file, PartyDues partyDues) throws IOException
     {
-        List<PartyDues> list = partyDuesService.selectPartyDuesListByCreateTime();
+        String loginName = ShiroUtils.getSysUser().getLoginName();
+        List<PartyDues> list = partyDuesService.selectPartyDuesListByCreateTime(loginName);
         if(list.size() != 0) {
             for (int i = 0; i < list.size(); i++) {
                 partyDuesService.deletePartyDuesById(list.get(i).getPartyDueId());

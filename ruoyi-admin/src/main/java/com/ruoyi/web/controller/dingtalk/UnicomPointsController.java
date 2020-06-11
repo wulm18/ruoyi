@@ -89,7 +89,7 @@ public class UnicomPointsController extends BaseController
     @ResponseBody
     public AjaxResult addSave(@RequestParam("file") MultipartFile file, UnicomPoints unicomPoints) throws IOException
     {
-        List<UnicomPoints> list = unicomPointsService.selectUnicomPointsList(unicomPoints);
+        List<UnicomPoints> list = unicomPointsService.selectUnicomPointsListByCreateTime(ShiroUtils.getSysUser().getLoginName());
         if (list.size() != 0){
             for(int i = 0; i < list.size(); i++){
                 unicomPointsService.deleteUnicomPointsById(list.get(i).getUnicomId());
@@ -103,6 +103,7 @@ public class UnicomPointsController extends BaseController
         unicomPoints.setCreateBy(ShiroUtils.getLoginName());
         unicomPoints.setUserName(ShiroUtils.getSysUser().getUserName());
         unicomPoints.setUnicomFlag("1");
+        unicomPoints.setDeptId(ShiroUtils.getSysUser().getDeptId());
         return toAjax(unicomPointsService.insertUnicomPoints(unicomPoints));
     }
 
